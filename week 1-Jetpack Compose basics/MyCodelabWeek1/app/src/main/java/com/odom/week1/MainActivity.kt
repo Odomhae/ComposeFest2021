@@ -33,9 +33,11 @@ fun MyApp(){
     // TODO: This state should be hoisted
     var shouldShowOnboarding by remember { mutableStateOf(true) }
 
-    if (shouldShowOnboarding){
+    if (shouldShowOnboarding == true){
+        // 초기화면
         OnboardingScreen(onContinueClicked = {shouldShowOnboarding = false})
     }else{
+        // 리스트
         Greetings()
     }
 
