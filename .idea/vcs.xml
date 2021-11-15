@@ -2,5 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/week 2-1-Layouts in JetpackCompose" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/week 2-1-Layouts in JetpackCompose/week2Layouts" vcs="Git" />
   </component>
 </project>
