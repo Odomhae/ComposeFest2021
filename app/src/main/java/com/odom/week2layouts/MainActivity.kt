@@ -28,7 +28,6 @@ class MainActivity : ComponentActivity() {
             Week2LayoutsTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                //    Greeting("Android")
                     PhotographerCard()
                 }
             }
@@ -61,19 +60,6 @@ fun PhotographerCard(modifier: Modifier = Modifier) {
         }
     }
 }
-
-//@Composable
-//fun Greeting(name: String) {
-//    Text(text = "Hello $name!")
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun DefaultPreview() {
-//    Week2LayoutsTheme {
-//        Greeting("Android")
-//    }
-//}
 
 @Preview
 @Composable
