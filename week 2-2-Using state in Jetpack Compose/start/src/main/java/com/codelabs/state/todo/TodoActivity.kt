@@ -49,10 +49,14 @@ private fun TodoActivityScreen(todoViewModel: TodoViewModel) {
 //    .observeAsState observes a LiveData<T> and converts it into a State<T> object so Compose can react to value changes
 //    listOf() is an initial value to avoid possible null results before the LiveData is initialized, if it wasn't passed items would be List<TodoItem>? which is nullable.
 //    by is the property delegate syntax in Kotlin, it lets us automatically unwrap the State<List<TodoItem>> from observeAsState into a regular List<TodoItem>
-    val items : List<TodoItem> by todoViewModel.todoItems.observeAsState(listOf())
+//    val items : List<TodoItem> by todoViewModel.todoItems.observeAsState(listOf())
     TodoScreen(
-        items = items,
-        onAddItem = {todoViewModel.addItem(it) },
-        onRemoveItem = {todoViewModel.removeItem(it)}
+        items = todoViewModel.todoItems,
+        currentlyEditing = todoViewModel.currentEditItem,
+        onAddItem = todoViewModel::addItem,
+        onRemoveItem = todoViewModel::removeItem,
+        onStartEdit = todoViewModel::onEditItemSelected,
+        onEditItemChange = todoViewModel::onEditItemChange,
+        onEditDone = todoViewModel::onEditDone
     )
 }
