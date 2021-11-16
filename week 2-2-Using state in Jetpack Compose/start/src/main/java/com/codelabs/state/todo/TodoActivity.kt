@@ -21,6 +21,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import com.codelabs.state.ui.StateCodelabTheme
 
 class TodoActivity : AppCompatActivity() {
@@ -32,9 +35,24 @@ class TodoActivity : AppCompatActivity() {
         setContent {
             StateCodelabTheme {
                 Surface {
-                    // TODO: build the screen in compose
+                    TodoActivityScreen(todoViewModel = todoViewModel)
                 }
             }
         }
     }
+}
+
+@Composable
+private fun TodoActivityScreen(todoViewModel: TodoViewModel) {
+//    val items: List<TodoItem> declares a variable items of type List<TodoItem>
+//    todoViewModel.todoItems is a LiveData<List<TodoItem> from the ViewModel
+//    .observeAsState observes a LiveData<T> and converts it into a State<T> object so Compose can react to value changes
+//    listOf() is an initial value to avoid possible null results before the LiveData is initialized, if it wasn't passed items would be List<TodoItem>? which is nullable.
+//    by is the property delegate syntax in Kotlin, it lets us automatically unwrap the State<List<TodoItem>> from observeAsState into a regular List<TodoItem>
+    val items : List<TodoItem> by todoViewModel.todoItems.observeAsState(listOf())
+    TodoScreen(
+        items = items,
+        onAddItem = {todoViewModel.addItem(it) },
+        onRemoveItem = {todoViewModel.removeItem(it)}
+    )
 }
