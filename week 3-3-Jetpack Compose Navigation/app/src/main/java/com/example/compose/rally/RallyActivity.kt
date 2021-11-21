@@ -76,54 +76,66 @@ fun RallyApp() {
                 )
             }
         ) { innerPadding ->
-            NavHost(
+            RallyNavHost(
                 navController = navController,
-                startDestination = RallyScreen.Overview.name,
-                modifier = Modifier.padding(innerPadding)
-            ){
-                composable(RallyScreen.Overview.name){
-                  //  Text(text = RallyScreen.Overview.name)
-                    // See All 누르면 해당 페이지로 이동
-                    OverviewBody(
-                        onClickSeeAllAccounts = { navController.navigate(RallyScreen.Accounts.name) },
-                        onClickSeeAllBills = { navController.navigate(RallyScreen.Bills.name) },
-                        onAccountClick = { name ->
-                            navigateToSingleAccount(navController, name)
-                        }
-                    )
-                }
-                composable(RallyScreen.Accounts.name) {
-                 //   Text(RallyScreen.Accounts.name)
-                    AccountsBody(accounts = UserData.accounts){name->
-                        navigateToSingleAccount(
-                            navController = navController,
-                            accountName = name
-                        )
-                    }
-                }
-                composable(RallyScreen.Bills.name) {
-                 //   Text(RallyScreen.Bills.name)
-                    BillsBody(bills = UserData.bills)
-                }
-                val accountsName = RallyScreen.Accounts.name
-                composable(
-                    "$accountsName/{name}",
-                    arguments = listOf(
-                        navArgument("name") {
-                            type = NavType.StringType
-                        },
-                    ),
-                    deepLinks = listOf(navDeepLink {
-                        uriPattern = "rally://$accountsName/{name}"
-                    })
-                ) { entry ->
-                    val accountName = entry.arguments?.getString("name")
-                    val account = UserData.getAccount(accountName)
-                    SingleAccountBody(account = account)
-                }
-            }
+                modifier = Modifier.padding(innerPadding))
+
         }
     }
+}
+
+@Composable
+fun RallyNavHost(
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
+    NavHost(
+        navController = navController,
+        startDestination = RallyScreen.Overview.name,
+        modifier = modifier
+    ){
+        composable(RallyScreen.Overview.name){
+            //  Text(text = RallyScreen.Overview.name)
+            // See All 누르면 해당 페이지로 이동
+            OverviewBody(
+                onClickSeeAllAccounts = { navController.navigate(RallyScreen.Accounts.name) },
+                onClickSeeAllBills = { navController.navigate(RallyScreen.Bills.name) },
+                onAccountClick = { name ->
+                    navigateToSingleAccount(navController, name)
+                }
+            )
+        }
+        composable(RallyScreen.Accounts.name) {
+            //   Text(RallyScreen.Accounts.name)
+            AccountsBody(accounts = UserData.accounts){name->
+                navigateToSingleAccount(
+                    navController = navController,
+                    accountName = name
+                )
+            }
+        }
+        composable(RallyScreen.Bills.name) {
+            //   Text(RallyScreen.Bills.name)
+            BillsBody(bills = UserData.bills)
+        }
+        val accountsName = RallyScreen.Accounts.name
+        composable(
+            "$accountsName/{name}",
+            arguments = listOf(
+                navArgument("name") {
+                    type = NavType.StringType
+                },
+            ),
+            deepLinks = listOf(navDeepLink {
+                uriPattern = "rally://$accountsName/{name}"
+            })
+        ) { entry ->
+            val accountName = entry.arguments?.getString("name")
+            val account = UserData.getAccount(accountName)
+            SingleAccountBody(account = account)
+        }
+    }
+
 }
 
 private fun navigateToSingleAccount(
